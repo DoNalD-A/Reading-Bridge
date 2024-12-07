@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>서평 게시판</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f3f4f6;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            width: 90vw;
+            height: 90vh;
+            max-width: 1200px;
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+   .price-section {
+        margin-top: 20px;
+        text-align: center;
+        font-size: 1.2em;
+        font-weight: bold;
+        color: #333;
+    }
+
+        /* Left Sidebar */
+        .sidebar {
+            background-color: #2c3e50;
+            color: #fff;
+            padding: 20px;
+            width: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+
+        }
+
+        .sidebar h2 {
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .menu li {
+            padding: 15px 0;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .menu li:hover {
+            background-color: #34495e;
+            padding-left: 5px;
+        }
+
+        .menu a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .menu a:hover {
+            color: #fff;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .section-title {
+            font-size: 2em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-top: 20px;
+            margin-bottom: 17px;
+            border-bottom: 2px solid #2980b9;
+            padding-bottom: 5px;
+  text-align: center; /* 가운데 정렬 */
+        }
+
+    .hall-of-fame-list {
+    display: flex;
+    flex-wrap: wrap; /* 한 줄에 두 개씩 배치 */
+    gap: 40px; /* 사각형 간격 추가 */
+    justify-content: center; /* 가운데 정렬 */
+    margin-top: 80px;
+}
+.menu a {
+    color: #ffffff; /* 링크 글자 색상 */
+    text-decoration: none; /* 밑줄 제거 */
+}
+
+.menu a:hover {
+    color: #ffcc00; /* 호버 시 색상 변경 */
+    text-decoration: underline; /* 호버 시 밑줄 추가 */
+}
+
+.hall-of-fame-item {
+    width: 45%; /* 한 줄에 두 개씩 배치되도록 설정 */
+    background-color: #ecf0f1;
+    border-radius: 8px;
+    padding: 40px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    transition: transform 0.3s;
+}
+.hall-of-fame-item .title {
+    font-size: 1.6em;
+    color: #1f4e79;
+    margin-bottom: 0;
+    position: relative;
+    top: -70px; /* 제목과 본문 사이 간격 조정 */
+}
+.mentor-button {
+    display: block;
+    width: 110px; /* 버튼 크기 */
+    height: 100px; /* 버튼 크기 */
+    margin: 0 auto 20px; /* 가운데 정렬 및 아래 간격 */
+    background-color: #d8b4fe; /* 진한 파란색 배경 */
+    color: #fff; /* 버튼 글자색 */
+    font-size: 1.2em;
+    font-weight: bold;
+    border: none;
+    border-radius: 50%; /* 둥근 버튼 */
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.mentor-button:hover {
+    transform: scale(1.1); /* 버튼 크기 확대 */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* 그림자 확대 */
+}
+
+.mentor-button:active {
+    transform: scale(0.95); /* 클릭 시 살짝 눌림 효과 */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.hall-of-fame-item p {
+
+    position: relative;
+top: -10px;
+    font-size: 1.1em !important; /* 강제로 글자 크기 증가 */
+    color: #1a1a1a !important;
+    line-height: 1.6; /* 줄 간격 증가 */
+    margin-bottom: 10px; /* 각 줄 간 간격 추가 */
+
+
+}
+
+.hall-of-fame-item:hover {
+    transform: translateY(-5px);
+}
+
+        .profile-pic {
+            width: 100px;
+            height: 100px;
+            background-color: #dfe6e9;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            overflow: hidden;
+        }
+
+        .profile-pic img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .hall-of-fame-item h3 {
+            font-size: 1.2em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+.hall-of-fame-item h4 {
+    font-size: 1.2em;
+    color: #2c3e50;
+    margin-top: 15px; /* 제목 위 간격 */
+    margin-bottom: 20px; /* 제목과 리스트 사이 간격 추가 */
+}
+
+.hall-of-fame-item ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin-top: 0; /* 리스트와 제목 간격 초기화 */
+    margin-bottom: 20px; /* 리스트 아래 간격 추가 */
+}
+
+.hall-of-fame-item ul li {
+    font-size: 1em;
+    color: #1a1a1a;
+    line-height: 1.6;
+}
+
+        .hall-of-fame-item p {
+            font-size: 0.9em;
+            color: #7f8c8d;
+            line-height: 1.4;
+        }
+  .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            width: 400px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-content h2 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            text-align:center;
+        }
+  .modal-content p {
+        text-align: center; /* 멘토 정보 가운데 정렬 */
+        font-weight: bold; /* 멘토 정보 강조 */
+    }
+
+        .modal-content label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .modal-content select, .modal-content input, .modal-content textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .modal-content button {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        .modal-content button:hover {
+            background-color: #218838;
+        }
+
+        .close-modal {
+            background-color: #dc3545;
+            margin-top: 10px;
+        }
+
+        .close-modal:hover {
+            background-color: #c82333;
+        }
+    .price-box {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        text-align: center;
+        font-size: 1.2em;
+        font-weight: bold;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #f8f9fa;
+        color: #333;
+    }
+
+    </style>
+    <script>
+     function goToPage(page) {
+            // 해당 페이지로 이동
+            window.location.href = page;
+        }
+             function openModal(mentorName) {
+            document.getElementById("mentorName").innerText = mentorName;
+            document.getElementById("mentoringModal").style.display = "flex";
+        }
+
+        // 멘토링 모달 닫기
+        function closeModal() {
+            document.getElementById("mentoringModal").style.display = "none";
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <!-- Sidebar Menu -->
+    <aside class="sidebar">
+        <h2>메뉴</h2>
+        <ul class="menu">
+      <li><a href="{{ url_for('home') }}">홈으로</a></li>
+            <li><a href="{{ url_for('mentoring') }}">멘토링 신청</a></li>
+            <li><a href="{{ url_for('ebook_list') }}">전자책 목록</a></li>
+            <li><a href="{{ url_for('my') }}">My 전자책</a></li>
+            <li><a href="{{ url_for('ebook_create') }}">전자책 생성</a></li>
+           </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="section-title">당신의 멘토를 만나보세요</div>
+       <div class="hall-of-fame-list">
+    <div class="hall-of-fame-item">
+        <button class="mentor-button" onclick="openModal('정유찬')">멘토링하기</button>
+        <span class="title">정유찬</span>
+        <p>2권의 소설 베스트셀러 기록</p>
+        <p>출판사 주최 '올해의 작가상' 수상</p>
+        <p>국내외 문학 강연 진행 경험</p>
+        <h4>전문 분야</h4>
+        <ul>
+            <li>소설 창작</li>
+            <li>산문 작성</li>
+            <li>에세이 작성</li>
+        </ul>
+    </div>
+    <div class="hall-of-fame-item">
+        <button class="mentor-button" onclick="openModal('정지현')">멘토링하기</button>
+        <span class="title">정지현</span>
+        <p>전국 대학생 문학 공모전 대상 수상</p>
+        <p>'신예 작가 발굴 프로젝트' 우승</p>
+        <p>문학 동아리 회장 2년 활동</p>
+        <h4>전문 분야</h4>
+        <ul>
+            <li>자기소개서 작성</li>
+            <li>에세이 작성</li>
+            <li>논문 작성 및 편집</li>
+        </ul>
+    </div>
+    <div class="hall-of-fame-item">
+        <button class="mentor-button" onclick="openModal('유빛나')">멘토링하기</button>
+        <span class="title">유빛나</span>
+        <p>문예창작학과 교수</p>
+        <p>논문 5편 발표</p>
+        <p>문학상 심사위원 경력</p>
+        <h4>전문 분야</h4>
+        <ul>
+            <li>논문 작성 및 편집</li>
+            <li>전문 문예 글쓰기</li>
+            <li>문학 글쓰기</li>
+        </ul>
+    </div>
+    <div class="hall-of-fame-item">
+         <button class="mentor-button" onclick="openModal('김현주')">멘토링하기</button>
+        <span class="title">김현주</span>
+        <p>브런치 작가 활동</p>
+        <p>'일상에서 시작하는 글쓰기' 강의 3년</p>
+        <p>중급 작가를 위한 워크숍 진행</p>
+        <h4>전문 분야</h4>
+        <ul>
+            <li>브런치 글쓰기</li>
+            <li>블로그 글쓰기</li>
+            <li>실용적 글쓰기</li>
+        </ul>
+    </div>
+</div>
+
+    </main>
+</div>
+<div id="mentoringModal" class="modal">
+    <div class="modal-content">
+        <h2>멘토링 신청</h2>
+        <p><strong>멘토:</strong> <span id="mentorName"></span></p>
+        <label for="mentoringTopic">멘토링 주제</label>
+        <select id="mentoringTopic">
+            <option value="novel">소설 창작</option>
+            <option value="essay">에세이 작성</option>
+        </select>
+        
+        <label for="date">희망 일정</label>
+        <input type="date" id="date">
+        <input type="time" id="time">
+        
+        <label for="additionalRequest">추가 요청 사항</label>
+        <textarea id="additionalRequest" placeholder="멘토에게 전달하고 싶은 메시지를 작성해주세요"></textarea>
+        
+        <label for="mentoringMethod">멘토링 방식</label>
+        <select id="mentoringMethod">
+            <option value="video">화상 회의 (Zoom, Google Meet 등)</option>
+            <option value="document">문서 공유 플랫폼 활용</option>
+            <option value="chat">실시간 채팅 기반 멘토링</option>
+            <option value="face-to-face">대면 만남</option>
+        </select>
+ <label for="price">가격</label>
+        <div class="price-box" id="price-box">
+            5만원
+        </div>
+
+        <button onclick="closeModal()">신청하기</button>
+        <button class="close-modal" onclick="closeModal()">닫기</button>
+    </div>
+</div>
+</body>
+</html>
