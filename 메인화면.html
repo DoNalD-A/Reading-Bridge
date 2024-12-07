@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>서평 나눔나라</title>
+    <style>
+        /* 전체 폰트 및 기본 설정 */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* 헤더 스타일 */
+        header {
+            width: 100%;
+            background-color: #ffffff;
+            color: #333;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            font-size: 18px;
+        }
+
+        .logo {
+            font-weight: bold;
+            color: #333;
+            font-size: 24px;
+            margin-left: 270px;
+        }
+
+        nav {
+            display: flex;
+            gap: 15px;
+            margin-left: 20px;
+        }
+
+        nav a {
+            color: #333;
+            text-decoration: none;
+            font-weight: bold;
+            margin-left: 20px;
+        }
+
+  .big-rectangle {
+    width: 73%;
+    height: 200px;
+     background-color: #f9f9f9; /* 또는 #ffffff, #f0f8ff */
+    margin-top: 20px;
+    display: flex;
+    justify-content: center; /* 가운데 정렬 */
+    align-items: center;
+    gap: 20px; /* 이미지 간 간격 */
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    padding: 0 10px; /* 양쪽 패딩 추가 */
+}
+
+.slide-container {
+    width: 45%; /* 각 슬라이드 컨테이너 너비 조정 */
+    height: 100%;
+    display: flex;
+    justify-content: center; /* 슬라이드 컨테이너 내부 이미지 가운데 정렬 */
+    align-items: center;
+    position: relative;
+}
+
+.slide1, .slide2 {
+    display: none;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.active {
+    display: block;
+}
+
+
+.big-rectangle img {
+    display: none;
+    width: auto;
+    height: auto;
+    max-width: 100%; /* 이미지 최대 너비를 컨테이너에 맞춤 */
+    max-height: 180px; /* 이미지 최대 높이를 180px로 제한 */
+    object-fit: cover;
+    border-radius: 8px;
+}
+.big-rectangle .active {
+    display: block; /* 활성화된 이미지만 표시 */
+}
+
+
+        .extra-squares {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+            margin-bottom: 30px;
+        }
+
+        .extra-square {
+            width: 450px;
+            height: 400px;
+            background-color: #cccccc;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .ranking-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-top: 80px;
+            margin-bottom: 5px;
+            width: 80%;
+            padding-right: 20px;
+            text-align: left;
+            margin-left:200px;
+        }
+   .login-text {
+margin-left: auto; /* 자동으로 오른쪽으로 밀림 */
+            color: #333;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            padding: 10px 15px;
+            transition: color 0.3s ease;
+        }
+
+        .login-text:hover {
+            color: #555; /* 호버 시 색상 변경 */
+        }
+
+        .ranking-title.second {
+            margin-top: 80px;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: nowrap;
+            margin-bottom: 30px;
+        }
+
+        .book-image {
+            width: 260px;
+            height: 360px;
+            margin: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            overflow: hidden;
+            background-color: #87CEEB;
+        }
+
+        /* 이미지 스타일 */
+        .book-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* 푸터 스타일 */
+        footer {
+            width: 100%;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            font-size: 16px;
+            position: relative;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- 헤더 -->
+    <header>
+        <div class="logo">서평 나눔나라</div>
+       <nav>
+    <a href="javascript:void(0);" onclick="goToHome()">홈</a>
+    <a href="javascript:void(0);" onclick="goToBook()">책</a>
+    <a href="javascript:void(0);" onclick="goToEvent()">이벤트</a>
+</nav>
+  <a class="login-text" href="javascript:void(0);" onclick="goToLogin()">로그인</a>
+    </header>
+
+    <!-- 큰 직사각형 네모 -->
+ <!-- 큰 직사각형 네모 -->
+<div class="big-rectangle">
+    <!-- 첫 번째 이미지 슬라이드 -->
+    <div class="slide-container">
+        <img src="{{ url_for('static', filename='images/1위의1.jpg') }}" alt="1순위의1" class="slide1 active">
+        <img src="{{ url_for('static', filename='images/2위의2.jpg') }}" alt="2순위의2" class="slide1 active">
+    </div>
+    <!-- 두 번째 이미지 슬라이드 -->
+    <div class="slide-container">
+        <img src="{{ url_for('static', filename='images/3위의2.jpg') }}" alt="3순위의2" class="slide2 active">
+        <img src="{{ url_for('static', filename='images/4위의1.jpg') }}" alt="4순위의1" class="slide2">
+    </div>
+    <div class="slide-container">
+        <img src="{{ url_for('static', filename='images/5위의1.jpg') }}" alt="5순위의1" class="slide2 active">
+        <img src="{{ url_for('static', filename='images/4위의2.jpg') }}" alt="4순위의2" class="slide2">
+    </div>
+</div>
+
+<!-- 큰 정사각형 3개 -->
+<div class="extra-squares">
+    <div class="extra-square" onclick="one()">
+        <img src="{{ url_for('static', filename='images/1위.jpg') }}" alt="1위이미지" style="width: 100%; height: 100%; border-radius: 10px; border: 2px solid #ddd; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+    </div>
+    <div class="extra-square" onclick="five()">
+        <img src="{{ url_for('static', filename='images/4위.jpg') }}" alt="4위이미지" style="width: 100%; height: 100%; border-radius: 10px; border: 2px solid #ddd; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+    </div>
+    <div class="extra-square">
+        <img src="{{ url_for('static', filename='images/크리스마스.webp') }}" alt="크리스마스 이미지" style="width: 100%; height: 100%; border-radius: 10px; border: 2px solid #ddd; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); object-fit: cover;">
+    </div>
+</div>
+
+<!-- 첫 번째 책 이미지 컨테이너 -->
+<div class="ranking-title">베스트셀러 HOT 랭킹</div>
+<div class="container">
+    <div class="book-image" onclick="one()">
+        <img src="{{ url_for('static', filename='images/1위.jpg') }}" alt="베스트셀러 1위">
+    </div>
+    <div class="book-image" onclick="two()">
+        <img src="{{ url_for('static', filename='images/2위.jpg') }}" alt="베스트셀러 2위">
+    </div>
+    <div class="book-image" onclick="three()">
+        <img src="{{ url_for('static', filename='images/3위.jpg') }}" alt="베스트셀러 3위">
+    </div>
+    <div class="book-image" onclick="four()">
+        <img src="{{ url_for('static', filename='images/4위.jpg') }}" alt="베스트셀러 4위">
+    </div>
+    <div class="book-image" onclick="five()">
+        <img src="{{ url_for('static', filename='images/5위.jpg') }}" alt="베스트셀러 5위">
+    </div>
+</div>
+
+<!-- 두 번째 책 이미지 컨테이너 -->
+<div class="ranking-title second">전자책 HOT 랭킹</div>
+<div class="container">
+    <div class="book-image" onclick="four()">
+        <img src="{{ url_for('static', filename='images/4위.jpg') }}" alt="서평 4위">
+    </div>
+    <div class="book-image" onclick="three()">
+        <img src="{{ url_for('static', filename='images/3위.jpg') }}" alt="서평 3위">
+    </div>
+    <div class="book-image" onclick="five()">
+        <img src="{{ url_for('static', filename='images/5위.jpg') }}" alt="서평 5위">
+    </div>
+    <div class="book-image" onclick="one()">
+        <img src="{{ url_for('static', filename='images/1위.jpg') }}" alt="서평 1위">
+    </div>
+    <div class="book-image" onclick="two()">
+        <img src="{{ url_for('static', filename='images/2위.jpg') }}" alt="서평 2위">
+    </div>
+</div>
+
+
+
+    <!-- 푸터 -->
+    <footer>
+        © 2024 서평 나눔나라. All rights reserved.
+    </footer>
+
+    <script>
+function goToHome() {
+    window.location.href = "{{ url_for('home') }}"; // Flask에서 정의된 'home' 경로
+}
+
+
+
+function goToBook() {
+    window.location.href = "{{ url_for('books') }}"; // Flask에서 정의된 'books' 경로
+}
+
+
+    let currentSlide1 = 0;
+        let currentSlide2 = 0;
+
+        function showSlides() {
+            const slides1 = document.getElementsByClassName("slide1");
+            const slides2 = document.getElementsByClassName("slide2");
+
+            // 첫 번째 슬라이드 그룹 전환
+            for (let i = 0; i < slides1.length; i++) {
+                slides1[i].classList.remove("active");
+            }
+            slides1[currentSlide1].classList.add("active");
+            currentSlide1 = (currentSlide1 + 1) % slides1.length;
+
+            // 두 번째 슬라이드 그룹 전환
+            for (let i = 0; i < slides2.length; i++) {
+                slides2[i].classList.remove("active");
+            }
+            slides2[currentSlide2].classList.add("active");
+            currentSlide2 = (currentSlide2 + 1) % slides2.length;
+        }
+
+        setInterval(showSlides, 2000); // 2초마다 이미지 전환
+        // 페이지 이동 함수
+       function one() { window.location.href = "{{ url_for('book1') }}"; }
+function two() { window.location.href = "{{ url_for('book2') }}"; }
+function three() { window.location.href = "{{ url_for('book3') }}"; }
+function four() { window.location.href = "{{ url_for('book4') }}"; }
+function five() { window.location.href = "{{ url_for('book5') }}"; }
+    </script>
+</body>
+</html>
