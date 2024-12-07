@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>서평 게시판</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f3f4f6;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            display: flex;
+            max-width: 1200px;
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Left Sidebar */
+        .sidebar {
+            background-color: #2c3e50;
+            color: #fff;
+            padding: 20px;
+            width: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .sidebar h2 {
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+.menu a {
+    color: #ffffff; /* 링크 글자 색상 */
+    text-decoration: none; /* 밑줄 제거 */
+}
+
+.menu a:hover {
+    color: #ffcc00; /* 호버 시 색상 변경 */
+    text-decoration: underline; /* 호버 시 밑줄 추가 */
+}
+        .menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .menu li {
+            padding: 15px 0;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .menu li:hover {
+            background-color: #34495e;
+            padding-left: 5px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 30px;
+        }
+
+        .book-info {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .book-cover {
+    width: auto; /* 고정된 너비를 제거 */
+    height: auto; /* 고정된 높이를 제거 */
+    max-width: 200px; /* 최대 너비를 제한 */
+    max-height: 300px; /* 최대 높이를 제한 */
+}
+
+.book-cover img {
+    width: 100%; /* 이미지가 .book-cover에 맞게 크기 조정 */
+    height: auto; /* 이미지 비율을 유지하면서 크기 조정 */
+    border-radius: 8px;
+}
+
+        .book-details {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .book-details h3 {
+            font-size: 1.8em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .book-details p {
+            font-size: 1.1em;
+            color: #7f8c8d;
+            margin: 5px 0;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .actions button {
+            padding: 10px 20px;
+            font-size: 1em;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .purchase-btn {
+            background-color: #2980b9;
+            color: #fff;
+        }
+
+        .purchase-btn:hover {
+            background-color: #3498db;
+        }
+
+        .review-btn {
+            background-color: #27ae60;
+            color: #fff;
+        }
+
+        .review-btn:hover {
+            background-color: #2ecc71;
+        }
+
+        /* Section Title */
+        .section-title {
+            margin-top: 40px;
+            font-size: 1.6em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #2980b9;
+            padding-bottom: 5px;
+        }
+
+        /* Related Books */
+        .related-books {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            padding-bottom: 20px;
+        }
+
+        .related-book {
+            min-width: 150px;
+            background-color: #ecf0f1;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .related-book img {
+            width: 100px;
+            height: 150px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .related-book p {
+            font-size: 0.9em;
+            color: #2c3e50;
+        }
+
+    </style>
+       <script>
+        function goToPage(page) {
+            // 해당 페이지로 이동
+            window.location.href = page;
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar Menu -->
+        <aside class="sidebar">
+            <h2>메뉴</h2>
+            <ul class="menu">
+               <li><a href="{{ url_for('home') }}">홈으로</a></li>
+            <li><a href="{{ url_for('mentoring') }}">멘토링 신청</a></li>
+            <li><a href="{{ url_for('ebook_list') }}">전자책 목록</a></li>
+            <li><a href="{{ url_for('my') }}">My 전자책</a></li>
+            <li><a href="{{ url_for('ebook_create') }}">전자책 생성</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Book Information -->
+            <div class="book-info">
+      <div class="book-cover">
+    <img src="/static/images/1위.jpg" alt="서평 1위" style="border-radius: 8px;">
+</div>
+                <div class="book-details">
+                    <h3>소년이 온다</h3>
+                    <p><strong>저자:</strong> 한강</p>
+                   <p><strong>출판사:</strong> 창비</p>
+                    <p><strong>장르:</strong> 현대 한국 문학</p>
+                    <p><strong>줄거리:</strong> <br>1980년5월18일부터 열흘간 있었던 광주 민주화운동 당시의 상황과<br> 그 이후 남겨진 사람들의 이야기를 철저한 고증과 취재를 바탕으로 합니다.<br> 그 당시 국가의 무자비함을 핍진하게 그려내며 인간의 잔혹함과 악행에 대한 근원적인 질문을 던집니다.</p>
+                    <div class="actions">
+                        <button class="purchase-btn">구매하기</button>
+                        
+                    </div>
+                </div>
+            </div>
+
+     
+
+             <div class="section-title">저자의 다른 작품들</div>
+    <div class="related-books">
+        <div class="related-book">
+            <img src="/static/images/1위의1.jpg" alt="1위의1" style="border-radius: 8px;">
+            <p>채식주의자</p>
+        </div>
+        <div class="related-book">
+            <img src="/static/images/1위의2.jpg" alt="1위의2" style="border-radius: 8px;">
+            <p>작별하지 않는다</p>
+        </div>
+        <div class="related-book">
+            <img src="/static/images/1위의3.jpg" alt="1위의3" style="border-radius: 8px;">
+            <p>여수의 사랑</p>
+        </div>
+        <div class="related-book">
+            <img src="/static/images/1위의4.jpg" alt="1위의4" style="border-radius: 8px;">
+            <p>바람이 분다 가라</p>
+        </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
