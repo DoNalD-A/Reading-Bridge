@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>독후감 전자책</title>
+  <style>
+    /* 기본 스타일 */
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #eef2f7; /* 부드러운 배경 */
+      color: #333;
+    }
+
+    /* 네비게이션 바 */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background-color: #4a5568; /* 진한 회색 */
+      color: #ffffff;
+      display: flex;
+      justify-content: center;
+      padding: 15px 0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      z-index: 10;
+text-align: left; /* 텍스트 강제로 왼쪽 정렬 */
+  align-items: flex-start; /* 전체 컨텐츠를 왼쪽 정렬 */
+
+    }
+    nav button {
+      background-color: #718096; /* 버튼 색상 */
+      color: #ffffff;
+      border: none;
+      margin: 0 15px;
+      padding: 12px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      font-size: 16px;
+    }
+    nav button:hover {
+      background-color: #a0aec0; /* 호버 색상 */
+      transform: scale(1.1);
+    }
+
+    /* 메인 콘텐츠 */
+    #chapters {
+      margin: 120px auto 50px;
+      width: 80%;
+      max-width: 1000px;
+      padding: 30px;
+      background: #ffffff;
+      border-radius: 15px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .chapter {
+      display: none;
+      text-align: left;
+    }
+
+    .chapter.active {
+      display: block;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* 텍스트 스타일 */
+    h1 {
+      font-size: 32px;
+      margin-bottom: 15px;
+      color: #2d3748;
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: #4a5568;
+      text-align: left;
+    }
+
+    p {
+      font-size: 18px;
+      line-height: 1.8;
+      color: #4a5568;
+      padding: 15px;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      background-color: #f7fafc;
+      min-height: 200px;
+    }
+
+    p[aria-placeholder]:empty::before {
+      content: attr(aria-placeholder);
+      color: #a0aec0;
+      position: absolute;
+      pointer-events: none;
+    }
+
+    /* 버튼 스타일 */
+    .save-button {
+      text-align: right;
+      margin-top: 20px;
+    }
+
+    .save-button button {
+      padding: 10px 20px;
+      background-color: #4a5568;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .save-button button:hover {
+      background-color: #2d3748;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 네비게이션 -->
+  <nav>
+    <button onclick="showChapter(0)">서문</button>
+    <button onclick="showChapter(1)">본문</button>
+    <button onclick="showChapter(2)">결말</button>
+  </nav>
+
+  <!-- 콘텐츠 -->
+  <section id="chapters">
+    <!-- 서문 -->
+    <article class="chapter active" id="chapter1">
+      <h1>서문</h1>
+      <h2>책을 읽게 된 이유</h2>
+
+      <p contenteditable="true" id="text1" aria-placeholder="이 책을 읽게 된 계기와 기대했던 점을 간단히 작성해 보세요."></p>
+      <div class="save-button">
+        <button onclick="saveContent(1)">저장</button>
+      </div>
+    </article>
+
+    <!-- 본문 -->
+    <article class="chapter" id="chapter2">
+      <h1>본문</h1>
+      <h2>인상 깊었던 순간들</h2>
+      <p contenteditable="true" id="text2" aria-placeholder="책의 내용 중 인상 깊었던 부분이나, 기억에 남는 메시지를 작성하세요."></p>
+      <div class="save-button">
+        <button onclick="saveContent(2)">저장</button>
+      </div>
+    </article>
+
+    <!-- 결말 -->
+    <article class="chapter" id="chapter3">
+      <h1>결말</h1>
+      <h2>이야기를 마무리하며</h2>
+      <p contenteditable="true" id="text3" aria-placeholder="이 책을 통해 배운 점, 느낀 점, 혹은 앞으로의 다짐을 작성하세요."></p>
+      <div class="save-button">
+        <button onclick="finalSubmit()">최종 제출</button>
+      </div>
+    </article>
+  </section>
+  <div id="titleModal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 400px; background-color: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); z-index: 1000;">
+    <h2 style="margin-bottom: 15px; text-align: center;">전자책 제목 입력</h2>
+    <input type="text" id="modalTitleInput" placeholder="제목을 입력하세요" style="width: 100%; padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 5px; margin-bottom: 15px;">
+    <div style="text-align: center;">
+        <button onclick="saveTitle()" style="padding: 10px 20px; font-size: 16px; background-color: #4a5568; color: #fff; border: none; border-radius: 5px; cursor: pointer;">확인</button>
+    </div>
+</div>
+
+<!-- 배경 어둡게 -->
+<div id="modalOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 999;"></div>
+
+<!-- 버튼 -->
+
+
+  <script>
+
+      function showModal() {
+        document.getElementById("titleModal").style.display = "block";
+        document.getElementById("modalOverlay").style.display = "block";
+    }
+
+    // 제목 저장 및 모달 닫기
+    function saveTitle() {
+        const title = document.getElementById("modalTitleInput").value.trim();
+        if (!title) {
+            alert("제목을 입력해주세요.");
+            return;
+        }
+
+        localStorage.setItem("ebookTitle", title);
+        alert(`제목이 저장되었습니다: ${title}`);
+
+        // 모달 닫기
+        document.getElementById("titleModal").style.display = "none";
+        document.getElementById("modalOverlay").style.display = "none";
+    }
+
+    /* 현재 페이지 상태 관리 */
+    let currentChapter = 0;
+
+    function showChapter(index) {
+      const chapters = document.querySelectorAll(".chapter");
+      chapters[currentChapter].classList.remove("active");
+      currentChapter = index;
+      chapters[currentChapter].classList.add("active");
+    }
+
+    /* 개별 저장 기능 */
+    function saveContent(chapterNumber) {
+      const content = document.getElementById(`text${chapterNumber}`).innerText;
+      localStorage.setItem(`chapter${chapterNumber}`, content);
+      alert(`내용이 저장되었습니다.`);
+    }
+
+    /* 최종 제출 기능 */
+    function finalSubmit() {
+    const title = document.getElementById("modalTitleInput").value.trim();
+    const intro = document.getElementById("text1").innerText.trim();
+    const body = document.getElementById("text2").innerText.trim();
+    const conclusion = document.getElementById("text3").innerText.trim();
+
+    if (!title) {
+        alert("제목을 입력해주세요.");
+        return;
+    }
+
+    // 데이터 저장
+    const ebook = { title, intro, body, conclusion };
+    let ebooks = JSON.parse(localStorage.getItem("ebooks")) || [];
+    ebooks.push(ebook); // 새로운 전자책 추가
+    localStorage.setItem("ebooks", JSON.stringify(ebooks)); // 로컬스토리지에 저장
+
+    alert("전자책이 저장되었습니다!");
+    window.location.href = "/home"; // 메인 화면으로 이동
+}
+
+function loadSavedData() {
+    const ebook = JSON.parse(localStorage.getItem("currentEbook"));
+
+    if (ebook) {
+        // 전자책 데이터를 입력란에 표시
+        document.getElementById("modalTitleInput").value = ebook.title || "";
+        document.getElementById("text1").innerText = ebook.intro || "작성된 내용이 없습니다.";
+        document.getElementById("text2").innerText = ebook.body || "작성된 내용이 없습니다.";
+        document.getElementById("text3").innerText = ebook.conclusion || "작성된 내용이 없습니다.";
+    } else {
+        alert("불러올 전자책 데이터가 없습니다.");
+    }
+}
+
+
+    /* 페이지 로드 시 실행 */
+window.onload = function () {
+
+    const ebook = JSON.parse(localStorage.getItem("currentEbook")); // 선택된 전자책 로드
+    const isEbookCreatePage = window.location.pathname.includes('/ebook-create');
+
+    if (ebook) {
+        document.getElementById("modalTitleInput").value = ebook.title || "";
+        document.getElementById("text1").innerText = ebook.intro || "";
+        document.getElementById("text2").innerText = ebook.body || "";
+        document.getElementById("text3").innerText = ebook.conclusion || "";
+    }
+
+    // 제목 입력 모달은 ebook-create 페이지에서만 표시
+   if (window.location.pathname.includes('/ebook-create') && !window.location.pathname.includes('/my')) {
+    showModal();
+}
+
+};
+
+
+
+  </script>
+</body>
+</html>
